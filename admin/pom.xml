@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.example</groupId>
-	<artifactId>mall-admin</artifactId>
+	<artifactId>admin</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>mall-admin</name>
+	<name>admin</name>
 	<description>mall admin system</description>
 
 	<properties>

@@ -1,10 +1,10 @@
-package com.example.malladmin;
+package com.example.admin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MallAdminApplicationTests {
+class AdminApplicationTests {
 
 	@Test
 	void contextLoads() {
