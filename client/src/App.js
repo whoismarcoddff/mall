@@ -1,24 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
 
-function App() {
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+
+import { setUser } from "./redux/user/userAction";
+
+import Home from "./page/home/Home";
+import Login from "./page/login/Login";
+import User from "./page/user/User";
+
+function App(props) {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+
+  useEffect(() => {
+    console.log("ooo App");
+    // dispatch(setUser({ name: "test" }));
+    // console.log("ooo user", user);
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Switch>
+          <Route exact path="/home">
+            <Home />
+          </Route>
+          <Route exact path="/login">
+            <Login />
+          </Route>
+          <Route exact path="/user">
+            <User user={user} />
+          </Route>
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
