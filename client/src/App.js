@@ -1,5 +1,10 @@
 import "./App.css";
-import { Route, Switch, BrowserRouter as Router } from "react-router-dom";
+import {
+  Route,
+  Switch,
+  BrowserRouter as Router,
+  Redirect,
+} from "react-router-dom";
 
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -24,6 +29,9 @@ function App(props) {
     <Router>
       <div className="App">
         <Switch>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
           <Route exact path="/home">
             <Home />
           </Route>
