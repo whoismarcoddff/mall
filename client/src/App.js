@@ -14,6 +14,7 @@ import { setUser } from "./redux/user/userAction";
 import Home from "./page/home/Home";
 import Login from "./page/login/Login";
 import User from "./page/user/User";
+import NotFound from "./page/error/404";
 
 function App(props) {
   const dispatch = useDispatch();
@@ -21,29 +22,32 @@ function App(props) {
 
   useEffect(() => {
     console.log("ooo App");
-    // dispatch(setUser({ name: "test" }));
-    // console.log("ooo user", user);
+
+    dispatch(setUser({ name: "test" }));
   }, []);
 
   return (
-    <Router>
-      <div className="App">
+    <div className="App">
+      <Router>
         <Switch>
-          <Route exact path="/">
-            <Redirect to="/home" />
-          </Route>
           <Route exact path="/home">
             <Home />
           </Route>
           <Route exact path="/login">
-            <Login />
+            <Login user={user} />
           </Route>
-          <Route exact path="/user">
+          <Route path="/user">
             <User user={user} />
           </Route>
+          <Route exact path="/">
+            <Redirect to="/home" />
+          </Route>
+          <Route>
+            <NotFound />
+          </Route>
         </Switch>
-      </div>
-    </Router>
+      </Router>
+    </div>
   );
 }
 
