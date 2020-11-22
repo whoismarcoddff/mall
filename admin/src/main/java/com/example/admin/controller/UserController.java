@@ -1,18 +1,19 @@
 package com.example.admin.controller;
 
-import com.example.admin.config.JwtTokenUtil;
-import com.example.admin.entity.JwtRequest;
-import com.example.admin.entity.JwtResponse;
-import com.example.admin.entity.User;
-import com.example.admin.entity.UserDTO;
+import com.example.admin.config.security.JwtTokenUtil;
+import com.example.admin.domain.dto.UserRegisterRequest;
+import com.example.admin.domain.dto.UserLoginRequest;
+import com.example.admin.domain.dto.UserView;
+import com.example.admin.domain.entity.User;
 import com.example.admin.service.impl.UserServiceImpl;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,26 +31,37 @@ public class UserController {
     @Autowired
     private UserServiceImpl userService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody JwtRequest request) throws Exception {
+    private final Logger logger;
 
-        System.out.println("ooo: " + request.getUsername());
-        System.out.println("ooo: " + request.getPassword());
+    public UserController(Logger logger) {
+        this.logger = logger;
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody UserLoginRequest request) throws Exception {
+
+        logger.info("username ---> {}", request.getUsername());
+        logger.info("password ---> {}", request.getPassword());
 
         try {
-            authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-        } catch (DisabledException e) {
-            throw new Exception("USER_DISABLED", e);
+            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+
+            final User user = userService.loadUserByUsername(request.getUsername());
+
+            final String token = jwtTokenUtil.generateToken(user);
+
+            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(user);
+
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
         }
-
-        final UserDetails userDetails = userService.loadUserByUsername(request.getUsername());
-
-        final String token = jwtTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new JwtResponse(token));
     }
+
+    @PostMapping("/register")
+    public UserView register(@RequestBody UserRegisterRequest request) {
+        return userService.register(request);
+    }
+
 
     @GetMapping("/users")
     public List<User> getAll() {

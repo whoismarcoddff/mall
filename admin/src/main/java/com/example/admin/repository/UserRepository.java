@@ -1,6 +1,6 @@
 package com.example.admin.repository;
 
-import com.example.admin.entity.User;
+import com.example.admin.domain.entity.User;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Optional;
