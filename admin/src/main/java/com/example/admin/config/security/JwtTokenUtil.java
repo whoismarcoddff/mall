@@ -1,6 +1,8 @@
 package com.example.admin.config.security;
 
+import com.example.admin.domain.dto.UserLoginRequest;
 import com.example.admin.domain.entity.User;
+import com.example.admin.utils.Utils;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -14,13 +16,16 @@ import org.springframework.stereotype.Component;
 
 import org.slf4j.Logger;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
 import static java.lang.String.format;
 
 @Component
 public class JwtTokenUtil implements Serializable {
 
     // Expired time 30 mins
-    public static final long JWT_TOKEN_VALIDITY =  30 * 60;
+    public static final long JWT_TOKEN_VALIDITY = 30 * 60;
 
     private final Logger logger;
 
@@ -43,7 +48,7 @@ public class JwtTokenUtil implements Serializable {
     public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 
-        System.out.println(claims);
+        System.out.println("claims: ---> " + claims);
 
         return claims.getSubject().split(",")[1];
     }
@@ -62,9 +67,20 @@ public class JwtTokenUtil implements Serializable {
         return Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
     }
 
-    public String generateToken(User user) {
+    public String generateToken(User user, UserLoginRequest request) {
         Map<String, Object> claims = new HashMap<>();
-        return Jwts.builder().setClaims(claims).setSubject(format("%s,%s", user.getId(), user.getUsername())).setIssuedAt(new Date(System.currentTimeMillis())).setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000)).signWith(SignatureAlgorithm.HS512, jwtSecret).compact();
+        //TODO: IP and UserAgent inspection
+//        String clientIp = Utils.getClientIp((HttpServletRequest) request);
+//        String userAgent = Utils.getUserAgent((HttpServletRequest) request);
+//        claims.put("clientIp", clientIp);
+//        claims.put("userAgent", userAgent);
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(format("%s,%s", user.getId(), user.getUsername()))
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis() + JWT_TOKEN_VALIDITY * 1000))
+                .signWith(SignatureAlgorithm.HS512, jwtSecret)
+                .compact();
     }
 
     public Boolean validateToken(String token) {

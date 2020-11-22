@@ -48,7 +48,7 @@ public class UserController {
 
             final User user = userService.loadUserByUsername(request.getUsername());
 
-            final String token = jwtTokenUtil.generateToken(user);
+            final String token = jwtTokenUtil.generateToken(user, request);
 
             return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(user);
 
