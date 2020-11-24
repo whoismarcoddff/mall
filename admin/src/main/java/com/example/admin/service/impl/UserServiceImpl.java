@@ -3,12 +3,15 @@ package com.example.admin.service.impl;
 import com.example.admin.domain.dto.UserRegisterRequest;
 import com.example.admin.domain.dto.UserView;
 import com.example.admin.domain.entity.User;
+import com.example.admin.domain.mapper.UserEditMapper;
+import com.example.admin.domain.mapper.UserViewMapper;
 import com.example.admin.repository.UserRepository;
 import com.example.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
 import java.util.List;
@@ -19,32 +22,41 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
 
+    private final UserViewMapper userViewMapper;
+
+    private final UserEditMapper userEditMapper;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserViewMapper userViewMapper, UserEditMapper userEditMapper) {
         this.userRepository = userRepository;
+        this.userViewMapper = userViewMapper;
+        this.userEditMapper = userEditMapper;
     }
 
     @Override
+    @Transactional
     public List<User> getAll() {
         List<User> users = (List<User>) userRepository.findAll();
         return users;
     }
 
     @Override
+    @Transactional
     public Optional<User> findById(int id) {
         Optional<User> result = userRepository.findById(id);
         return result;
     }
 
     @Override
+    @Transactional
     public User saveOrUpdate(User user) {
         return userRepository.save(user);
     }
 
     @Override
+    @Transactional
     public UserView register(UserRegisterRequest request) {
         if (userRepository.findByUsername(request.getUsername()).isPresent()) {
             throw new ValidationException("Username" + request.getUsername() + "exists!");
@@ -53,23 +65,19 @@ public class UserServiceImpl implements UserService {
             throw new ValidationException("Password don't match!");
         }
 
-        //TODO: UserEditMapper
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setRole(request.getRole());
+        User user = userEditMapper.requestToUser(request);
         user.setPassword(passwordEncoder.encode(request.getPassword()));
+
         user = userRepository.save(user);
 
-        //TODO: UserViewMapper
-        UserView userView = new UserView();
-        userView.setUsername(user.getUsername());
-        userView.setEmail(user.getEmail());
-        userView.setId(user.getId());
+        UserView userView = userViewMapper.userToUserView(user);
+
+
         return userView;
     }
 
     @Override
+    @Transactional
     public void deleteById(int id) {
         userRepository.deleteById(id);
     }

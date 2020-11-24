@@ -26,6 +26,14 @@ public class User implements UserDetails, Serializable {
     @NotNull
     private String username;
 
+    @Column(name = "firstname")
+    @NotNull
+    private String firstname;
+
+    @Column(name = "lastname")
+    @NotNull
+    private String lastname;
+
     @Column(name = "email", unique = true)
     @NotNull
     private String email;
