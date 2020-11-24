@@ -5,9 +5,9 @@ import com.example.admin.domain.dto.UserRegisterRequest;
 import com.example.admin.domain.dto.UserLoginRequest;
 import com.example.admin.domain.dto.UserView;
 import com.example.admin.domain.entity.User;
+import com.example.admin.domain.mapper.UserViewMapper;
 import com.example.admin.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,18 +22,21 @@ import java.util.Optional;
 @RestController
 @CrossOrigin
 public class UserController {
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private final JwtTokenUtil jwtTokenUtil;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    private final AuthenticationManager authenticationManager;
 
-    @Autowired
-    private UserServiceImpl userService;
+    private final UserServiceImpl userService;
+
+    private final UserViewMapper userViewMapper;
 
     private final Logger logger;
 
-    public UserController(Logger logger) {
+    public UserController(JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager, UserServiceImpl userService, UserViewMapper userViewMapper, Logger logger) {
+        this.jwtTokenUtil = jwtTokenUtil;
+        this.authenticationManager = authenticationManager;
+        this.userService = userService;
+        this.userViewMapper = userViewMapper;
         this.logger = logger;
     }
 
@@ -47,10 +50,11 @@ public class UserController {
             Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
 
             final User user = userService.loadUserByUsername(request.getUsername());
+            UserView userView = userViewMapper.userToUserView(user);
 
             final String token = jwtTokenUtil.generateToken(user, request);
 
-            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(user);
+            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(userView);
 
         } catch (BadCredentialsException e) {
             throw new Exception("INVALID_CREDENTIALS", e);
@@ -64,21 +68,23 @@ public class UserController {
 
 
     @GetMapping("/users")
-    public List<User> getAll() {
-        return userService.getAll();
+    public List<UserView> getAll() {
+        List<UserView> userViews = userViewMapper.userToUserView(userService.getAll());
+        return userViews;
     }
 
     @GetMapping("/users/{userId}")
-    public User findById(@PathVariable("userId") int userId) {
+    public UserView findById(@PathVariable("userId") int userId) {
         Optional<User> result = userService.findById(userId);
         if (!result.isPresent()) {
             throw new RuntimeException("Invalid userId " + userId);
         }
-        return result.get();
+        UserView userView = userViewMapper.userToUserView(result.get());
+        return userView;
     }
 
     @PutMapping("/users/{userId}")
-    public User update(@PathVariable int userId, @RequestBody User user) {
+    public UserView update(@PathVariable int userId, @RequestBody User user) {
         if (user == null) {
             throw new RuntimeException("User can not be null");
         }
@@ -86,16 +92,18 @@ public class UserController {
             throw new RuntimeException("User id " + userId + " not exist");
         }
         user.setId(userId);
-        return userService.saveOrUpdate(user);
+        UserView userView = userViewMapper.userToUserView(userService.saveOrUpdate(user));
+        return userView;
     }
 
     @PostMapping("/users")
-    public User create(@RequestBody User user) {
+    public UserView create(@RequestBody User user) {
         if (user == null) {
             throw new RuntimeException("User can not be null");
         }
         user.setId(0);
-        return userService.saveOrUpdate(user);
+        UserView userView = userViewMapper.userToUserView(userService.saveOrUpdate(user));
+        return userView;
     }
 
     @DeleteMapping("/users/{userId}")
