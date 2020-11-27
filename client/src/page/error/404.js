@@ -1,6 +1,6 @@
-import React from "react";
-import { Grid } from "@material-ui/core";
-import { Link } from "react-router-dom";
+import React from 'react'
+import { Grid } from '@material-ui/core'
+import { Link } from 'react-router-dom'
 
 export default function Home() {
   return (
@@ -12,5 +12,5 @@ export default function Home() {
         <Link to="/">home</Link>
       </Grid>
     </Grid>
-  );
+  )
 }

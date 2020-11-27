@@ -21,9 +21,9 @@ function App(props) {
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    console.log("ooo App");
 
-    dispatch(setUser({ name: "test" }));
+
+    // dispatch(setUser({ name: "test" }));
   }, []);
 
   return (
@@ -33,7 +33,7 @@ function App(props) {
           <Route exact path="/home">
             <Home />
           </Route>
-          <Route exact path="/login">
+          <Route path="/login">
             <Login user={user} />
           </Route>
           <Route path="/user">
