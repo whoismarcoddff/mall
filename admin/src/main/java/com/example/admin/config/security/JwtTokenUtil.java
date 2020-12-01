@@ -2,7 +2,6 @@ package com.example.admin.config.security;
 
 import com.example.admin.domain.dto.UserLoginRequest;
 import com.example.admin.domain.entity.User;
-import com.example.admin.utils.Utils;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -11,13 +10,9 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import org.slf4j.Logger;
-
-import javax.servlet.ServletRequest;
-import javax.servlet.http.HttpServletRequest;
 
 import static java.lang.String.format;
 

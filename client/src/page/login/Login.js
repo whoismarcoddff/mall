@@ -1,8 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, TextField, Button } from '@material-ui/core'
-import { useHistory } from 'react-router-dom'
+import { Grid, Button, TextField } from '@material-ui/core'
+import { useHistory, Link } from 'react-router-dom'
+
+import InputField from '../../component/InputField/InputField'
 
 import { login } from '../../service/user'
+
+import './Login.scss'
 
 export default function Login({ user }) {
   const history = useHistory()
@@ -44,33 +48,40 @@ export default function Login({ user }) {
 
   return (
     <Grid container className="login-container">
-      <Grid item xs={12} className="title">
-        Login
+      <Grid item xs={12}>
+        <Grid container className="form-container">
+          <Grid item xs={12} className="title">
+            Login
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              label="email"
+              variant="filled"
+              name="username"
+              value={username}
+              error={!!error.username}
+              onChange={(e) => inputOnChange('username', e)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              label="password"
+              variant="filled"
+              name="password"
+              value={password}
+              error={!!error.password}
+              onChange={(e) => inputOnChange('password', e)}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button onClick={handleSubmit} color="primary" variant="contained">
+              submit
+            </Button>
+          </Grid>
+        </Grid>
       </Grid>
       <Grid item xs={12}>
-        <TextField
-          label="username"
-          variant="outlined"
-          name="username"
-          value={username}
-          error={error.username}
-          onChange={(e) => inputOnChange('username', e)}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <TextField
-          label="password"
-          variant="outlined"
-          name="password"
-          value={password}
-          error={error.password}
-          onChange={(e) => inputOnChange('password', e)}
-        />
-      </Grid>
-      <Grid item xs={12}>
-        <Button onClick={handleSubmit} color="primary" variant="contained">
-          submit
-        </Button>
+        No account yet? Please <Link to="/register">Register</Link>
       </Grid>
     </Grid>
   )

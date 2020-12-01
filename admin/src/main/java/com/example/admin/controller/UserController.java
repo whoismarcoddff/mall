@@ -6,6 +6,7 @@ import com.example.admin.domain.dto.UserLoginRequest;
 import com.example.admin.domain.dto.UserView;
 import com.example.admin.domain.entity.User;
 import com.example.admin.domain.mapper.UserViewMapper;
+import com.example.admin.service.impl.MailServiceImpl;
 import com.example.admin.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.springframework.http.HttpHeaders;
@@ -23,16 +24,12 @@ import java.util.Optional;
 @CrossOrigin(origins = "http://localhost:3000")
 public class UserController {
     private final JwtTokenUtil jwtTokenUtil;
-
     private final AuthenticationManager authenticationManager;
-
     private final UserServiceImpl userService;
-
     private final UserViewMapper userViewMapper;
-
     private final Logger logger;
 
-    public UserController(JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager, UserServiceImpl userService, UserViewMapper userViewMapper, Logger logger) {
+    public UserController(JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager, MailServiceImpl mailService, UserServiceImpl userService, UserViewMapper userViewMapper, Logger logger) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.authenticationManager = authenticationManager;
         this.userService = userService;

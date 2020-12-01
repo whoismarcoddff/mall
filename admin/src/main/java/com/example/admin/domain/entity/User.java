@@ -22,6 +22,10 @@ public class User implements UserDetails, Serializable {
     @Column(name = "id")
     private int id;
 
+    @Column(name = "email", unique = true)
+    @NotNull
+    private String email;
+
     @Column(name = "username", unique = true)
     @NotNull
     private String username;
@@ -34,9 +38,6 @@ public class User implements UserDetails, Serializable {
     @NotNull
     private String lastname;
 
-    @Column(name = "email", unique = true)
-    @NotNull
-    private String email;
 
     @Column(name = "password")
     @NotNull

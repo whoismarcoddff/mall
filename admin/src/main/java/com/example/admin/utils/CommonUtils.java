@@ -2,7 +2,7 @@ package com.example.admin.utils;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class Utils {
+public class CommonUtils {
     public static String getUserAgent(HttpServletRequest request) {
         String ua = "";
         if (request != null) {

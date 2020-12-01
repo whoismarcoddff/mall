@@ -21,18 +21,18 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
-
     private final UserViewMapper userViewMapper;
-
     private final UserEditMapper userEditMapper;
+    private final MailServiceImpl mailService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(UserRepository userRepository, UserViewMapper userViewMapper, UserEditMapper userEditMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserViewMapper userViewMapper, UserEditMapper userEditMapper, MailServiceImpl mailService) {
         this.userRepository = userRepository;
         this.userViewMapper = userViewMapper;
         this.userEditMapper = userEditMapper;
+        this.mailService = mailService;
     }
 
     @Override
