@@ -2,12 +2,14 @@ package com.example.admin;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.cache.annotation.EnableCaching;
 
 @SpringBootTest
+@EnableCaching
 class AdminApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() throws Exception {
+    }
 
 }

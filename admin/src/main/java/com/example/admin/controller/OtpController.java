@@ -3,7 +3,6 @@ package com.example.admin.controller;
 import com.example.admin.domain.dto.OtpValidateRequest;
 import com.example.admin.service.impl.MailServiceImpl;
 import com.example.admin.service.impl.OtpServiceImpl;
-import com.example.admin.utils.OtpGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -8,6 +8,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -15,6 +16,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.firewall.HttpFirewall;
 
 import static java.lang.String.format;
 
@@ -27,12 +29,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserServiceImpl userService;
     private final UserRepository userRepository;
     private final JwtRequestFilter jwtRequestFilter;
+//    private final HttpFirewall allowUrlEncodedSlashHttpFirewall;
 
     public WebSecurityConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint, UserServiceImpl userService, UserRepository userRepository, JwtRequestFilter jwtRequestFilter) {
         this.jwtAuthenticationEntryPoint = jwtAuthenticationEntryPoint;
         this.userService = userService;
         this.userRepository = userRepository;
         this.jwtRequestFilter = jwtRequestFilter;
+//        this.allowUrlEncodedSlashHttpFirewall = allowUrlEncodedSlashHttpFirewall;
     }
 
     @Bean
@@ -65,8 +69,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().authenticationEntryPoint(jwtAuthenticationEntryPoint).and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
-        http.formLogin().usernameParameter("email");
-
         http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
+//    @Override
+//    public void configure(WebSecurity web) throws Exception {
+//        super.configure(web);
+//        web.httpFirewall(allowUrlEncodedSlashHttpFirewall);
+//    }
 }
