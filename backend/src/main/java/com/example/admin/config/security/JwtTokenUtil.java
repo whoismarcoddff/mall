@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.stereotype.Component;
 
@@ -40,6 +41,11 @@ public class JwtTokenUtil implements Serializable {
         return claims.getSubject().split(",")[0];
     }
 
+    public String getTokenId(String token) {
+        Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
+        return claims.getId();
+    }
+
     public String getUsernameFromToken(String token) {
         Claims claims = Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(token).getBody();
 
@@ -47,6 +53,7 @@ public class JwtTokenUtil implements Serializable {
 
         return claims.getSubject().split(",")[1];
     }
+
 
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
@@ -63,13 +70,10 @@ public class JwtTokenUtil implements Serializable {
     }
 
     public String generateToken(User user, UserLoginRequest request) {
+        String id = UUID.randomUUID().toString();
         Map<String, Object> claims = new HashMap<>();
-        //TODO: IP and UserAgent inspection
-//        String clientIp = Utils.getClientIp((HttpServletRequest) request);
-//        String userAgent = Utils.getUserAgent((HttpServletRequest) request);
-//        claims.put("clientIp", clientIp);
-//        claims.put("userAgent", userAgent);
         return Jwts.builder()
+                .setId(id)
                 .setClaims(claims)
                 .setSubject(format("%s,%s", user.getId(), user.getUsername()))
                 .setIssuedAt(new Date(System.currentTimeMillis()))

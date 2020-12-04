@@ -10,7 +10,6 @@ public class RedisConfig {
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
         JedisConnectionFactory jedisConFactory = new JedisConnectionFactory();
-
         return jedisConFactory;
     }
 
