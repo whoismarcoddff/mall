@@ -1,9 +1,9 @@
 # mall
-### mall admin
+### backend
 
-spring boot + spring spa + spring security
+spring boot 
 
-### mall client
+### client
 
-Coming soon...
+react
 
