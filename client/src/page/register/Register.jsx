@@ -1,19 +1,30 @@
 import React, { useState, useEffect } from 'react'
-import { Grid, Button, TextField } from '@material-ui/core'
-import { useHistory, Link, Route } from 'react-router-dom'
+import { useLocation } from 'react-router'
+import { Grid } from '@material-ui/core'
+import {
+  useHistory,
+  Link,
+  Route,
+  useRouteMatch,
+  Redirect,
+} from 'react-router-dom'
 
-import InputField from '../../component/InputField/InputField'
 import ProfileForm from './profileForm/ProfileForm'
 import EmailForm from './emailForm/EmailForm'
+import AddressForm from './addressForm/AddressForm'
+import MallStepper from '../../component/mallStepper/MallStepper'
 
 import { login } from '../../service/user'
 
-import './Login.scss'
+import './Register.scss'
 
 export default function Login({ user }) {
+  const location = useLocation()
   const history = useHistory()
+  const { path } = useRouteMatch()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
+  const [pathname, setPathname] = useState('email')
   const [error, setError] = useState({
     usename: '',
     password: '',
@@ -48,18 +59,33 @@ export default function Login({ user }) {
     }
   }, [])
 
+  useEffect(() => {
+    const arr = location.pathname.split('/')
+    const pathname = arr[arr.length - 1]
+    setPathname(pathname)
+  }, [location])
+
   return (
     <Grid container className="register-container">
       <Grid item xs={12}>
-        <Route exact path="/email">
+        <MallStepper pathname={pathname} />
+      </Grid>
+      <Grid item xs={12}>
+        <Route exact path={`${path}`}>
+          <Redirect to={`${path}/email`} />
+        </Route>
+        <Route exact path={`${path}/email`}>
           <EmailForm />
         </Route>
-        <Route path="/profile">
+        <Route path={`${path}/profile`}>
           <ProfileForm />
+        </Route>
+        <Route path={`${path}/address`}>
+          <AddressForm />
         </Route>
       </Grid>
       <Grid item xs={12}>
-        Have account? Please <Link to="/login">LOGIN</Link>
+        Already have an account? Please <Link to="/login">Login</Link>
       </Grid>
     </Grid>
   )

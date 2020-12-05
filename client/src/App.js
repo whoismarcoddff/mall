@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux'
 
 import { setUser } from './redux/user/userAction'
 
-import Header from './component/Header/Header'
+import Header from './component/header/Header'
 import Home from './page/home/Home'
 import Login from './page/login/Login'
 import Register from './page/register/Register'

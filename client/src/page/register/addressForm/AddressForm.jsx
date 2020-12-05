@@ -4,29 +4,24 @@ import { useHistory, Link } from 'react-router-dom'
 
 import InputField from '../../../component/InputField/InputField'
 
-import './EmailForm.scss'
+import './AddressForm.scss'
 
-export default function EmailForm({ user }) {
+export default function AddressForm({ user }) {
   const history = useHistory()
-  const [username, setUsername] = useState('')
-  const [otp, setOtp] = useState('')
+  const [address, setAddress] = useState('')
+
   const [error, setError] = useState({
-    usename: '',
-    otp: '',
+    address: '',
   })
 
   const [validation, setValidation] = useState({
-    usename: '',
-    otp: '',
+    address: '',
   })
 
   const inputOnChange = (name, e) => {
-    switch (name) {
-      case 'username':
-        setUsername(e.target.value)
-        break
-      case 'otp':
-        setOtp(e.target.value)
+    switch (address) {
+      case 'address':
+        setAddress(e.target.value)
         break
       default:
         break
@@ -34,34 +29,24 @@ export default function EmailForm({ user }) {
   }
 
   const handleSubmit = () => {
-    console.log('ooo submit')
+    console.log('ooo address')
   }
 
   return (
-    <Grid container className="email-form-container">
+    <Grid container className="address-form-container">
       <Grid item xs={12}>
         <Grid container className="form-container">
           <Grid item xs={12} className="title">
-            Register
+            Address
           </Grid>
           <Grid item xs={12}>
             <InputField
-              label="email"
+              label="address"
               variant="filled"
-              name="username"
-              value={username}
-              error={!!error.username}
-              onChange={(e) => inputOnChange('username', e)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <InputField
-              label="otp"
-              variant="filled"
-              name="otp"
-              value={otp}
-              error={!!error.otp}
-              onChange={(e) => inputOnChange('otp', e)}
+              name="address"
+              value={address}
+              error={!!error.address}
+              onChange={(e) => inputOnChange('address', e)}
             />
           </Grid>
           <Grid item xs={12}>

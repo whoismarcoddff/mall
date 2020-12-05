@@ -4,11 +4,11 @@ import { useHistory, Link } from 'react-router-dom'
 
 import InputField from '../../../component/InputField/InputField'
 
-import { login } from '../../service/user'
+import { login } from '../../../service/user'
 
 import './ProfileForm.scss'
 
-export default function Login({ user }) {
+export default function ProfileForm({ user }) {
   const history = useHistory()
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -39,12 +39,6 @@ export default function Login({ user }) {
     const user = login(username, password)
     console.log('ooo', user.status)
   }
-
-  useEffect(() => {
-    if (user) {
-      history.push('/user')
-    }
-  }, [])
 
   return (
     <Grid container className="profile-form-container">

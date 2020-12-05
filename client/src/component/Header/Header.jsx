@@ -10,12 +10,12 @@ export default function Header() {
     <Grid container className="header-container" alignItems="center">
       <Hidden mdUp>
         <Grid item xs={12}>
-          mobile header
+          mobile/tablet
         </Grid>
       </Hidden>
       <Hidden smDown>
         <Grid item xs={12}>
-          tablet/desktop header
+          desktop
         </Grid>
       </Hidden>
     </Grid>
