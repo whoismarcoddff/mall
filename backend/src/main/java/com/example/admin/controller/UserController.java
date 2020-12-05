@@ -9,9 +9,6 @@ import com.example.admin.domain.mapper.UserViewMapper;
 import com.example.admin.service.impl.MailServiceImpl;
 import com.example.admin.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
-import org.springframework.data.redis.core.HashOperations;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.SetOperations;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -32,18 +29,13 @@ public class UserController {
     private final UserViewMapper userViewMapper;
     private final Logger logger;
 
-    private final RedisTemplate<String, String> myRedisTemplate;
 
-    private final SetOperations setOperations;
-
-    public UserController(JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager, MailServiceImpl mailService, UserServiceImpl userService, UserViewMapper userViewMapper, Logger logger,   RedisTemplate<String, String> myRedisTemplate) {
+    public UserController(JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager, MailServiceImpl mailService, UserServiceImpl userService, UserViewMapper userViewMapper, Logger logger) {
         this.jwtTokenUtil = jwtTokenUtil;
         this.authenticationManager = authenticationManager;
         this.userService = userService;
         this.userViewMapper = userViewMapper;
         this.logger = logger;
-        this.myRedisTemplate = myRedisTemplate;
-        this.setOperations = myRedisTemplate.opsForSet();
     }
 
     @PostMapping("/login")
@@ -59,9 +51,6 @@ public class UserController {
             UserView userView = userViewMapper.userToUserView(user);
 
             final String token = jwtTokenUtil.generateToken(user, request);
-
-            setOperations.add("tokenId", token);
-
 
             return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(userView);
 

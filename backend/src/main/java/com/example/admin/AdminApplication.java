@@ -10,7 +10,6 @@ import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
-@EnableCaching
 public class AdminApplication {
 
     public static void main(String[] args) {
