@@ -9,5 +9,5 @@ public class OtpValidateRequest {
     @Email
     private String email;
 
-    private int otp;
+    private String otp;
 }

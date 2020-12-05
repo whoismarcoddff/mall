@@ -2,42 +2,44 @@ package com.example.backend.service.impl;
 
 import com.example.backend.service.OtpService;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.SetOperations;
 import org.springframework.stereotype.Service;
 
-import java.util.Map;
+import javax.annotation.Resource;
 import java.util.Random;
+import java.util.Set;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 @Service
 public class OtpServiceImpl implements OtpService {
     private Random random = new Random();
-    private final Map<String, Integer> otpCache;
+    private final static long OTP_EXPIRE = 60 * 5;
 
-    public OtpServiceImpl(Map<String, Integer> otpCache) {
-        this.otpCache = otpCache;
-    }
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
+    @Resource(name = "redisTemplate")
+    private SetOperations<String, String> setOperations;
 
     @Override
-    public int generateOTP(String key) throws ExecutionException {
-        int otp = 100000 + random.nextInt(900000);
-        otpCache.put(key, otp);
+    public String generateOtp(String email) throws ExecutionException {
+        String otp = String.valueOf(100000 + random.nextInt(900000));
+        setOperations.add(email, otp);
+        redisTemplate.expire(email, OTP_EXPIRE, TimeUnit.SECONDS);
         return otp;
     }
 
-
     @Override
-    public int getOTP(String key) {
+    public boolean verifyOtp(String email, String otp) {
         try {
-            int otp = otpCache.get(key);
-            return otp;
+            Set<String> otpCache = setOperations.members(email);
+            return otpCache.contains(otp);
         } catch (Exception ex) {
-            System.out.println("ooo otp ex: " + ex.getMessage());
-            return 0;
+            System.out.println("otp invalid: " + ex.getMessage());
+            return false;
         }
-    }
-
-    @Override
-    public void clearOTP(String key) {
-
     }
 }

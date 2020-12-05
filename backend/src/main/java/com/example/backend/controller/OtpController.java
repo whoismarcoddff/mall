@@ -23,23 +23,20 @@ public class OtpController {
 
     @GetMapping("/requestOTP")
     public void requestOTP(@RequestParam("email") String email) throws ExecutionException {
-
-        int otp = otpService.generateOTP(email);
-
+        String otp = otpService.generateOtp(email);
         mailService.sendSimpleEmai(email, "One-Time Password Validation", String.format("Your one-time passcode is %s", otp));
     }
 
-    @PostMapping("/validateOTP")
-    public ResponseEntity validateOTP(@RequestBody OtpValidateRequest request) throws ExecutionException {
-        int clientOtp = request.getOtp();
+    @PostMapping("/verifyOtp")
+    public ResponseEntity verifyOtp(@RequestBody OtpValidateRequest request) throws ExecutionException {
+        String submitOtp = request.getOtp();
         String email = request.getEmail();
-        int cacheOtp = otpService.getOTP(email);
+        boolean result = otpService.verifyOtp(email, submitOtp);
 
-        if (cacheOtp == clientOtp) {
-            otpService.clearOTP(email);
+        if (result) {
             return ResponseEntity.ok().body("Otp is valid");
         } else {
-            return ResponseEntity.badRequest().body("Otp is not valid");
+            return ResponseEntity.badRequest().body("Otp is invalid");
         }
     }
 

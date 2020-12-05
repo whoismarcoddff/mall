@@ -1,24 +1,23 @@
 package com.example.backend.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
-//@Configuration
+@Configuration
 public class RedisConfig {
+
     @Bean
     JedisConnectionFactory jedisConnectionFactory() {
-        RedisStandaloneConfiguration redisStandaloneConfiguration = new RedisStandaloneConfiguration("localhost", 6379);
-
-        JedisConnectionFactory jedisConFactory = new JedisConnectionFactory(redisStandaloneConfiguration);
+        JedisConnectionFactory jedisConFactory = new JedisConnectionFactory();
         return jedisConFactory;
     }
 
     @Bean
-    RedisTemplate<String, String> redisTemplate() {
-        RedisTemplate<String, String> redisTemplate = new RedisTemplate<>();
-        redisTemplate.setConnectionFactory(jedisConnectionFactory());
-        return redisTemplate;
+    StringRedisTemplate redisTemplate() {
+        StringRedisTemplate stringRedisTemplate = new StringRedisTemplate();
+        stringRedisTemplate.setConnectionFactory(jedisConnectionFactory());
+        return stringRedisTemplate;
     }
 }
