@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }))
 
 function getSteps() {
-  return ['OTP Authentication', 'Username/Password', 'Address']
+  return ['Email', 'Profile', 'Address']
 }
 
 export default function MallStepper({ pathname }) {

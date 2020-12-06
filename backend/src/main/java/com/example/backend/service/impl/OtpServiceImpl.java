@@ -26,10 +26,10 @@ public class OtpServiceImpl implements OtpService {
 
     @Override
     public String generateOtp(String email) throws ExecutionException {
-        String otp = String.valueOf(100000 + random.nextInt(900000));
-        setOperations.add(email, otp);
+        String otp   = String.valueOf(100000 + random.nextInt(900000));
+        setOperations.add(email, otp  );
         redisTemplate.expire(email, OTP_EXPIRE, TimeUnit.SECONDS);
-        return otp;
+        return otp  ;
     }
 
     @Override
