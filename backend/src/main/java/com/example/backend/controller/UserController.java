@@ -1,114 +1,50 @@
 package com.example.backend.controller;
 
-import com.example.backend.config.security.JwtTokenUtil;
-import com.example.backend.domain.dto.UserRegisterRequest;
-import com.example.backend.domain.dto.UserLoginRequest;
-import com.example.backend.domain.dto.UserView;
-import com.example.backend.domain.entity.User;
-import com.example.backend.domain.mapper.UserViewMapper;
-import com.example.backend.service.impl.MailServiceImpl;
-import com.example.backend.service.impl.UserServiceImpl;
-import org.slf4j.Logger;
-import org.springframework.http.HttpHeaders;
+import com.example.backend.model.dto.UserRegisterRequest;
+import com.example.backend.model.dto.UserUpdateRequest;
+import com.example.backend.model.view.UserView;
+import com.example.backend.service.UserService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Optional;
+import javax.validation.Valid;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@RequestMapping("/users")
 public class UserController {
-    private final JwtTokenUtil jwtTokenUtil;
-    private final AuthenticationManager authenticationManager;
-    private final UserServiceImpl userService;
-    private final UserViewMapper userViewMapper;
-    private final Logger logger;
 
+    private final UserService userService;
 
-    public UserController(JwtTokenUtil jwtTokenUtil, AuthenticationManager authenticationManager, MailServiceImpl mailService, UserServiceImpl userService, UserViewMapper userViewMapper, Logger logger) {
-        this.jwtTokenUtil = jwtTokenUtil;
-        this.authenticationManager = authenticationManager;
+    public UserController(UserService userService) {
         this.userService = userService;
-        this.userViewMapper = userViewMapper;
-        this.logger = logger;
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody UserLoginRequest request) throws Exception {
-
-        logger.info("username ---> {}", request.getUsername());
-        logger.info("password ---> {}", request.getPassword());
-
-        try {
-            Authentication authenticate = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
-
-            final User user = userService.loadUserByUsername(request.getUsername());
-            UserView userView = userViewMapper.userToUserView(user);
-
-            final String token = jwtTokenUtil.generateToken(user, request);
-
-            return ResponseEntity.ok().header(HttpHeaders.AUTHORIZATION, token).body(userView);
-
-        } catch (BadCredentialsException e) {
-            throw new Exception("INVALID_CREDENTIALS", e);
-        }
     }
 
     @PostMapping("/register")
-    public UserView register(@RequestBody UserRegisterRequest request) {
-        return userService.register(request);
+    public ResponseEntity<Void> signUp(@RequestBody @Valid UserRegisterRequest userRegisterRequest) {
+        userService.save(userRegisterRequest);
+        return ResponseEntity.ok().build();
     }
 
-
-    @GetMapping("/users")
-    public List<UserView> getAll() {
-        List<UserView> userViews = userViewMapper.userToUserView(userService.getAll());
-        return userViews;
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_MANAGER','ROLE_ADMIN')")
+    public ResponseEntity<Page<UserView>> getAllUser(@RequestParam(value = "pageNum", defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+        Page<UserView> allUser = userService.getAll(pageNum, pageSize);
+        return ResponseEntity.ok().body(allUser);
     }
 
-    @GetMapping("/users/{userId}")
-    public UserView findById(@PathVariable("userId") int userId) {
-        Optional<User> result = userService.findById(userId);
-        if (!result.isPresent()) {
-            throw new RuntimeException("Invalid userId " + userId);
-        }
-        UserView userView = userViewMapper.userToUserView(result.get());
-        return userView;
+    @PutMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> update(@RequestBody @Valid UserUpdateRequest userUpdateRequest) {
+        userService.update(userUpdateRequest);
+        return ResponseEntity.ok().build();
     }
 
-    @PutMapping("/users/{userId}")
-    public UserView update(@PathVariable int userId, @RequestBody User user) {
-        if (user == null) {
-            throw new RuntimeException("User can not be null");
-        }
-        if (!userService.existsById(userId)) {
-            throw new RuntimeException("User id " + userId + " not exist");
-        }
-        user.setId(userId);
-        UserView userView = userViewMapper.userToUserView(userService.saveOrUpdate(user));
-        return userView;
-    }
-
-    @PostMapping("/users")
-    public UserView create(@RequestBody User user) {
-        if (user == null) {
-            throw new RuntimeException("User can not be null");
-        }
-        user.setId(0);
-        UserView userView = userViewMapper.userToUserView(userService.saveOrUpdate(user));
-        return userView;
-    }
-
-    @DeleteMapping("/users/{userId}")
-    public void delete(@PathVariable int userId) {
-        if (!userService.existsById(userId)) {
-            throw new RuntimeException("User id provided not exist");
-        }
-        userService.deleteById(userId);
+    @DeleteMapping
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    public ResponseEntity<Void> deleteUserByUserName(@RequestParam("username") String username) {
+        userService.delete(username);
+        return ResponseEntity.ok().build();
     }
 }

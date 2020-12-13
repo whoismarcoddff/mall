@@ -1,12 +1,21 @@
 package com.example.backend.repository;
 
-import com.example.backend.domain.entity.User;
-import org.springframework.data.repository.CrudRepository;
+import com.example.backend.model.entity.User;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-public interface UserRepository extends CrudRepository<User, Integer> {
-
+@Repository
+public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsername(String username);
-}
+    Optional<User> findByEmail(String email);
 
+    void deleteByUsername(String username);
+    void deleteByEmail(String email);
+
+
+    boolean existsByUsername(String username);
+    boolean existsByEmail(String email);
+
+}
