@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 public class User extends AuditBase {
 
     @Id
-    @Column(name = "USER_ID")
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -42,7 +42,7 @@ public class User extends AuditBase {
     private String password;
 
     @Column(name = "IS_ENABLED", nullable = false)
-    private Boolean enabled;
+    private Boolean isEnabled;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore

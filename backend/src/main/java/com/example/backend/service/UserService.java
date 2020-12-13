@@ -31,12 +31,6 @@ public class UserService {
     private final UserEditMapper userEditMapper;
     private final UserViewMapper userViewMapper;
 
-//    @Autowired
-//    private UserEditMapper userEditMapper;
-//    @Autowired
-//    private UserViewMapper userViewMapper;
-
-
     private final BCryptPasswordEncoder passwordEncoder;
 
     public UserService(UserRepository userRepository, RoleRepository roleRepository, UserRoleRepository userRoleRepository, BCryptPasswordEncoder passwordEncoder, UserViewMapper userViewMapper, UserEditMapper userEditMapper) {
@@ -76,11 +70,10 @@ public class UserService {
 
         User user = userEditMapper.requestToUser(userRegisterRequest);
 
-//        User user = userRegisterRequest.toUser();
         //TODO: emailVerified
         user.setIsEmailVerified(false);
         //TODO: enabled
-        user.setEnabled(true);
+        user.setIsEnabled(true);
 
         user.setPassword(passwordEncoder.encode(userRegisterRequest.getPassword()));
         userRepository.save(user);

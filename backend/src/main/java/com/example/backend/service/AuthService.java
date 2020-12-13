@@ -32,6 +32,7 @@ public class AuthService {
             throw new BadCredentialsException("The user name or password is not correct.");
         }
         JwtUser jwtUser = new JwtUser(user);
+        //TODO: handle isEnabled
         if (!jwtUser.isEnabled()) {
             throw new BadCredentialsException("User is forbidden to log in");
         }

@@ -20,7 +20,7 @@ public class JwtUser extends User implements UserDetails {
         email = user.getEmail();
         username = user.getUsername();
         password = user.getPassword();
-        enabled = user.getEnabled() == null ? true : user.getEnabled();
+        enabled = user.getIsEnabled() == null ? true : user.getIsEnabled();
         authorities = user.getRoles();
     }
 
@@ -46,7 +46,7 @@ public class JwtUser extends User implements UserDetails {
 
     @Override
     public boolean isAccountNonLocked() {
-        return super.getEnabled();
+        return super.getIsEnabled();
     }
 
     @Override
