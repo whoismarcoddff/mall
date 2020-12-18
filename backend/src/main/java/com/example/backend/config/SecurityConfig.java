@@ -26,11 +26,11 @@ import static java.util.Collections.singletonList;
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final StringRedisTemplate stringRedisTemplate;
     private final UserService userService;
 
-    public SecurityConfiguration(StringRedisTemplate stringRedisTemplate, @Lazy UserService userService) {
+    public SecurityConfig(StringRedisTemplate stringRedisTemplate, @Lazy UserService userService) {
         this.stringRedisTemplate = stringRedisTemplate;
         this.userService = userService;
     }

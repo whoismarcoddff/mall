@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Configuration
 @EnableJpaAuditing
-public class AuditSecurityConfiguration {
+public class AuditSecurityConfig {
     @Bean
     AuditorAware<String> auditorAware() {
         return () -> Optional.ofNullable(SecurityContextHolder.getContext())
