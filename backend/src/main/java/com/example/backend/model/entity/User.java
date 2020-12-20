@@ -11,6 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,35 +22,37 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Entity
 @Builder
-@Table(name = "USER")
-public class User extends AuditBase {
+@Table(name = "user")
+public class User extends AuditBase implements Serializable {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NaturalId
-    @Column(name = "EMAIL", unique = true)
+    @Column(name = "email", unique = true)
     @NotBlank(message = "User email cannot be null")
     private String email;
 
-    @Column(name = "USERNAME", unique = true)
+    @Column(name = "username", unique = true)
     @NotBlank(message = "Username cannot be null")
     private String username;
 
-    @Column(name = "PASSWORD")
+    @Column(name = "password")
     @NotBlank(message = "Password cannot be null")
     private String password;
 
-    @Column(name = "IS_ENABLED", nullable = false)
+    @Column(name = "is_enabled", nullable = false)
+    @NotNull(message = "IsEnabled cannot be null")
     private Boolean isEnabled;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonIgnore
     private List<UserRole> userRoles = new ArrayList<>();
 
-    @Column(name = "IS_EMAIL_VERIFIED", nullable = false)
+    @Column(name = "is_email_verified", nullable = false)
+    @NotNull(message = "IsEmailVerified cannot be null")
     private Boolean isEmailVerified;
 
     public List<SimpleGrantedAuthority> getRoles() {

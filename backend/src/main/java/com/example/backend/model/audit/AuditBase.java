@@ -29,7 +29,7 @@ public class AuditBase {
 
     @LastModifiedDate
     @JsonIgnore
-    private Instant updatedAt;
+    private Instant modifiedAt;
 
     @CreatedBy
     @Column(updatable = false)
@@ -38,5 +38,5 @@ public class AuditBase {
 
     @LastModifiedBy
     @JsonIgnore
-    private String updatedBy;
+    private String modifiedBy;
 }

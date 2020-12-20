@@ -1,6 +1,6 @@
 package com.example.backend.config;
 
-import com.example.backend.common.constants.SecurityConstants;
+import com.example.backend.constant.SecurityConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -49,7 +49,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Spring Security JWT Guide")
+                .title("Mall Api Guide")
                 .build();
     }
 }

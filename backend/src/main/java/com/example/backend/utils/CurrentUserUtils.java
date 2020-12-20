@@ -1,4 +1,4 @@
-package com.example.backend.common.utils;
+package com.example.backend.utils;
 
 import com.example.backend.model.entity.User;
 import com.example.backend.service.UserService;

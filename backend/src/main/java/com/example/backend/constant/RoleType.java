@@ -1,4 +1,4 @@
-package com.example.backend.model.enums;
+package com.example.backend.constant;
 
 import lombok.Getter;
 
@@ -11,7 +11,7 @@ public enum RoleType {
     private final String name;
     private final String description;
 
-    RoleType(java.lang.String name, java.lang.String description) {
+    RoleType(String name, String description) {
         this.name = name;
         this.description = description;
     }

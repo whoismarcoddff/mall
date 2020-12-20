@@ -1,6 +1,6 @@
 package com.example.backend.controller;
 
-import com.example.backend.common.constants.SecurityConstants;
+import com.example.backend.constant.SecurityConstants;
 import com.example.backend.model.dto.UserLoginRequest;
 import com.example.backend.service.AuthService;
 import io.swagger.annotations.Api;
@@ -27,7 +27,7 @@ public class AuthController {
     @PostMapping("/login")
     @ApiOperation("Login")
     public ResponseEntity<Void> login(@RequestBody UserLoginRequest userLoginRequest) {
-        String token = authService.getToken(userLoginRequest);
+        String token = authService.getAccessToken(userLoginRequest);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.set(SecurityConstants.TOKEN_HEADER, token);
         return new ResponseEntity<>(httpHeaders, HttpStatus.OK);

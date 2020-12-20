@@ -1,7 +1,7 @@
 package com.example.backend.filter;
 
-import com.example.backend.common.constants.SecurityConstants;
-import com.example.backend.common.utils.JwttokenUtils;
+import com.example.backend.constant.SecurityConstants;
+import com.example.backend.utils.JwtTokenUtils;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -38,13 +38,14 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
         UsernamePasswordAuthenticationToken authentication = null;
 
         try {
-            String prevToken = stringRedisTemplate.opsForValue().get(JwttokenUtils.getId(tokenValue));
+            String prevToken = stringRedisTemplate.opsForValue().get(JwtTokenUtils.getId(tokenValue));
+            //TODO: change logic
             if (!token.equals(prevToken)) {
                 SecurityContextHolder.clearContext();
                 chain.doFilter(request, response);
                 return;
             }
-            authentication = JwttokenUtils.getAuthentication(tokenValue);
+            authentication = JwtTokenUtils.getAuthentication(tokenValue);
         } catch (JwtException e) {
             logger.error("Invalid jwt: " + e.getMessage());
         }

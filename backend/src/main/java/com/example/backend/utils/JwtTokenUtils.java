@@ -1,6 +1,6 @@
-package com.example.backend.common.utils;
+package com.example.backend.utils;
 
-import com.example.backend.common.constants.SecurityConstants;
+import com.example.backend.constant.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -15,16 +15,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class JwttokenUtils {
+public class JwtTokenUtils {
     private static final byte[] API_KEY_SECRET_BYTES = DatatypeConverter.parseBase64Binary(SecurityConstants.JWT_SECRET_KEY);
     private static final SecretKey SECRET_KEY = Keys.hmacShaKeyFor(API_KEY_SECRET_BYTES);
 
-    public static String createToken(String username, String id, List<String> roles, boolean isRememberMe) {
+    public static String createAccessToken(String username, String id, List<String> roles, boolean isRememberMe) {
         long expiration = isRememberMe ? SecurityConstants.EXPIRATION_REMEMBER : SecurityConstants.EXPIRATION;
         final Date createdDate = new Date();
         final Date expirationDate = new Date(createdDate.getTime() + expiration * 1000);
         String tokenValue = Jwts.builder()
-                .setHeaderParam("type", SecurityConstants.TOKEN_TYPE)
+                .setHeaderParam("type", SecurityConstants.TOKEN_ACCESS_TYPE)
                 .signWith(SECRET_KEY, SignatureAlgorithm.HS256)
                 .claim(SecurityConstants.ROLE_CLAIMS, String.join(",", roles))
                 .setId(id)
@@ -38,10 +38,12 @@ public class JwttokenUtils {
     }
 
     private static Claims getClaims(String token) {
-        return Jwts.parser()
+        Claims claims = Jwts.parser()
                 .setSigningKey(SECRET_KEY)
                 .parseClaimsJws(token)
                 .getBody();
+        System.out.println("Claims: " + claims);
+        return claims;
     }
 
     private static List<SimpleGrantedAuthority> getAuthorities(Claims claims) {

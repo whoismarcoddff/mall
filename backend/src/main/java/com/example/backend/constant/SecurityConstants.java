@@ -1,4 +1,4 @@
-package com.example.backend.common.constants;
+package com.example.backend.constant;
 
 public final class SecurityConstants {
     public static final String ROLE_CLAIMS = "rol";
@@ -15,6 +15,8 @@ public final class SecurityConstants {
     public static final String TOKEN_PREFIX = "Bearer ";
     public static final String TOKEN_TYPE = "JWT";
     public static final String TOKEN_ISSUER = "MARCO";
+    public static final String TOKEN_ACCESS_TYPE = "ACCESS";
+    public static final String TOKEN_REFRESH_TYPE = "REFRESH";
 
     public static final String LOGIN_WHITELIST = "/api/auth/login";
 

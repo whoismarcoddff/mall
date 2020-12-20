@@ -1,10 +1,7 @@
 package com.example.backend.config;
 
-import com.example.backend.common.constants.SecurityConstants;
-import com.example.backend.exception.JwtAccessDeniedHandler;
-import com.example.backend.exception.JwtAuthenticationEntryPoint;
+import com.example.backend.constant.SecurityConstants;
 import com.example.backend.filter.JwtAuthorizationFilter;
-import com.example.backend.service.UserService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -28,11 +25,9 @@ import static java.util.Collections.singletonList;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final StringRedisTemplate stringRedisTemplate;
-    private final UserService userService;
 
-    public SecurityConfig(StringRedisTemplate stringRedisTemplate, @Lazy UserService userService) {
+    public SecurityConfig(StringRedisTemplate stringRedisTemplate) {
         this.stringRedisTemplate = stringRedisTemplate;
-        this.userService = userService;
     }
 
     @Bean
@@ -73,4 +68,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         source.registerCorsConfiguration("/**", configuration);
         return source;
     }
+
 }
