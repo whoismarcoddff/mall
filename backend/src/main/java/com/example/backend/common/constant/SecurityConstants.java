@@ -1,4 +1,4 @@
-package com.example.backend.constant;
+package com.example.backend.common.constant;
 
 public final class SecurityConstants {
     public static final String ROLE_CLAIMS = "rol";

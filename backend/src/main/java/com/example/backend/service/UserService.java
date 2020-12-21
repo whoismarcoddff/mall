@@ -1,6 +1,6 @@
 package com.example.backend.service;
 
-import com.example.backend.common.CommonResult;
+import com.example.backend.common.result.CommonResult;
 import com.example.backend.model.dto.UserRegisterRequest;
 import com.example.backend.model.dto.UserUpdateRequest;
 import com.example.backend.model.entity.User;

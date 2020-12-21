@@ -1,7 +1,6 @@
 package com.example.backend.controller;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
-import com.example.backend.common.CommonResult;
+import com.example.backend.common.result.CommonResult;
 import com.example.backend.exception.Asserts;
 import com.example.backend.model.dto.OtpVerifyRequest;
 import com.example.backend.model.dto.UserRegisterRequest;

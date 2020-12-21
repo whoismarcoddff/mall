@@ -1,6 +1,6 @@
 package com.example.backend.filter;
 
-import com.example.backend.constant.SecurityConstants;
+import com.example.backend.common.constant.SecurityConstants;
 import com.example.backend.utils.JwtTokenUtils;
 import io.jsonwebtoken.JwtException;
 import lombok.extern.slf4j.Slf4j;

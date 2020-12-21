@@ -1,9 +1,8 @@
 package com.example.backend.config;
 
-import com.example.backend.constant.SecurityConstants;
+import com.example.backend.common.constant.SecurityConstants;
 import com.example.backend.filter.JwtAuthorizationFilter;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;

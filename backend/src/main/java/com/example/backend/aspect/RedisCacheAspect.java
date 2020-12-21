@@ -19,7 +19,7 @@ import java.lang.reflect.Method;
 @Component
 @Order(2)
 public class RedisCacheAspect {
-    private static Logger logger = LoggerFactory.getLogger(RedisCacheAspect.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(RedisCacheAspect.class);
 
     //TODO: Improve it with a dynamic string for path modified
     @Pointcut("execution(public * com.example.backend.service.*CacheService.*(..))")
@@ -38,7 +38,7 @@ public class RedisCacheAspect {
             if (method.isAnnotationPresent(CacheException.class)) {
                 throw throwable;
             } else {
-                logger.error(throwable.getMessage());
+                LOGGER.error(throwable.getMessage());
             }
         }
         return result;

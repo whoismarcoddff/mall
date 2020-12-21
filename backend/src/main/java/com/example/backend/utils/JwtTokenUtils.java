@@ -1,6 +1,6 @@
 package com.example.backend.utils;
 
-import com.example.backend.constant.SecurityConstants;
+import com.example.backend.common.constant.SecurityConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;

@@ -1,9 +1,7 @@
-package com.example.backend.common;
+package com.example.backend.common.result;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Common api result status

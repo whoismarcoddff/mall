@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MailServiceImpl implements MailService {
-    private final Logger logger = LoggerFactory.getLogger(MailServiceImpl.class);
+    private static Logger LOGGER = LoggerFactory.getLogger(MailServiceImpl.class);
 
     @Value("${spring.mail.username}")
     private String from;

@@ -1,6 +1,6 @@
 package com.example.backend.exception;
 
-import com.example.backend.common.ErrorCode;
+import com.example.backend.common.result.ErrorCode;
 
 public class Asserts {
     public static void fail(String message) {

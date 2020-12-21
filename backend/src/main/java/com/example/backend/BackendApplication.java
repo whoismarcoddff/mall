@@ -1,17 +1,15 @@
 package com.example.backend;
 
-import com.example.backend.constant.RoleType;
-import com.example.backend.model.entity.Role;
 import com.example.backend.repository.RoleRepository;
-import com.sun.deploy.security.CertStore;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
 @EnableSwagger2
+@EnableScheduling
 public class BackendApplication {
 	@Autowired
 	RoleRepository roleRepository;
