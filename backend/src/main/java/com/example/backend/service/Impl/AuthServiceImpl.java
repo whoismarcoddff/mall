@@ -28,6 +28,7 @@ public class AuthServiceImpl implements AuthService {
         this.currentUserUtils = currentUserUtils;
     }
 
+    @Override
     public String getAccessToken(UserLoginRequest loginRequest) {
         User user = userService.findByEmail(loginRequest.getEmail());
         if (!userService.checkPassword(loginRequest.getPassword(), user.getPassword())) {
@@ -42,11 +43,8 @@ public class AuthServiceImpl implements AuthService {
 
         String token = JwtTokenUtils.createAccessToken(user.getUsername(), user.getId().toString(), authorities, loginRequest.getRememberMe());
 
-        stringRedisTemplate.opsForValue().set(user.getId().toString(), token);
         return token;
     }
 
-    public void deleteTokenFromRedis() {
-        stringRedisTemplate.delete(currentUserUtils.getCurrentUser().getId().toString());
-    }
+
 }

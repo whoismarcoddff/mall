@@ -1,4 +1,5 @@
-# mall
+# myshop
+
 ### backend
 
 There's implementation for the following features:

@@ -36,7 +36,7 @@ public class AuthController {
     @PostMapping("/logout")
     @ApiOperation("Logout")
     public ResponseEntity<Void> logout() {
-        authService.deleteTokenFromRedis();
+        //TODO: blacklist
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
