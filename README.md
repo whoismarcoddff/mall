@@ -30,15 +30,15 @@
 
 Login 
 
-![https://github.com/whoismarcode/myshop/blob/main/backend/docs/images/login.gif?raw=true]()
+![https://raw.githubusercontent.com/whoismarcode/myshop/main/backend/docs/images/login.gif]()
 
 Get users (test authentication)
 
-![https://github.com/whoismarcode/myshop/blob/main/backend/docs/images/get_users.gif?raw=true]()
+![https://raw.githubusercontent.com/whoismarcode/myshop/main/backend/docs/images/get_users.gif]()
 
 Mail service (send OTP)
 
-![https://github.com/whoismarcode/myshop/blob/main/backend/docs/images/mail.gif?raw=true]()
+![https://raw.githubusercontent.com/whoismarcode/myshop/main/backend/docs/images/mail.gif]()
 
 
 
