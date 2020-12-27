@@ -2,11 +2,11 @@ package com.example.backend.service.Impl;
 
 import com.example.backend.service.AuthService;
 import com.example.backend.service.UserService;
-import com.example.backend.utils.CurrentUserUtils;
-import com.example.backend.utils.JwtTokenUtils;
-import com.example.backend.model.dto.UserLoginRequest;
-import com.example.backend.model.entity.JwtUser;
-import com.example.backend.model.entity.User;
+import com.example.backend.util.CurrentUserUtils;
+import com.example.backend.security.JwtTokenUtils;
+import com.example.backend.dto.request.UserLoginRequest;
+import com.example.backend.model.jwt.JwtUser;
+import com.example.backend.model.User;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.GrantedAuthority;

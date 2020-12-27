@@ -1,6 +1,6 @@
 package com.example.backend.service.Impl;
 
-import com.example.backend.anotation.CacheException;
+import com.example.backend.cache.CacheException;
 import com.example.backend.service.AdminCacheService;
 import com.example.backend.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;

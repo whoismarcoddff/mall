@@ -1,10 +1,10 @@
 package com.example.backend.service;
 
-import com.example.backend.common.result.CommonResult;
-import com.example.backend.model.dto.UserRegisterRequest;
-import com.example.backend.model.dto.UserUpdateRequest;
-import com.example.backend.model.entity.User;
-import com.example.backend.model.view.UserView;
+import com.example.backend.dto.response.CommonResult;
+import com.example.backend.dto.request.UserRegisterRequest;
+import com.example.backend.dto.request.UserUpdateRequest;
+import com.example.backend.model.User;
+import com.example.backend.dto.response.UserView;
 import org.springframework.data.domain.Page;
 
 

@@ -1,6 +1,6 @@
 package com.example.backend.exception;
 
-import com.example.backend.common.result.ErrorCode;
+import com.example.backend.dto.response.ErrorCode;
 import lombok.Getter;
 
 @Getter

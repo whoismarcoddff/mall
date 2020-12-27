@@ -1,13 +1,13 @@
 package com.example.backend.controller;
 
-import com.example.backend.common.result.CommonResult;
+import com.example.backend.dto.response.CommonResult;
 import com.example.backend.exception.Asserts;
-import com.example.backend.model.dto.OtpVerifyRequest;
-import com.example.backend.model.dto.UserRegisterRequest;
-import com.example.backend.model.dto.UserUpdateRequest;
-import com.example.backend.model.entity.User;
-import com.example.backend.model.mapper.UserViewMapper;
-import com.example.backend.model.view.UserView;
+import com.example.backend.dto.request.OtpVerifyRequest;
+import com.example.backend.dto.request.UserRegisterRequest;
+import com.example.backend.dto.request.UserUpdateRequest;
+import com.example.backend.model.User;
+import com.example.backend.dto.mapper.UserViewMapper;
+import com.example.backend.dto.response.UserView;
 import com.example.backend.service.MailService;
 import com.example.backend.service.UserService;
 import org.springframework.data.domain.Page;

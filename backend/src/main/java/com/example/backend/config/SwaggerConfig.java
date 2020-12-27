@@ -1,6 +1,6 @@
 package com.example.backend.config;
 
-import com.example.backend.common.constant.SecurityConstants;
+import com.example.backend.constant.SecurityConstants;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;

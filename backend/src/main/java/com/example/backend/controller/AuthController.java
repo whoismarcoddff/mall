@@ -1,7 +1,7 @@
 package com.example.backend.controller;
 
-import com.example.backend.common.constant.SecurityConstants;
-import com.example.backend.model.dto.UserLoginRequest;
+import com.example.backend.constant.SecurityConstants;
+import com.example.backend.dto.request.UserLoginRequest;
 import com.example.backend.service.AuthService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

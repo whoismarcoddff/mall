@@ -1,6 +1,6 @@
 package com.example.backend.exception;
 
-import com.example.backend.common.result.CommonResult;
+import com.example.backend.dto.response.CommonResult;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
