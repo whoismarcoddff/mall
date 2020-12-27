@@ -42,12 +42,11 @@ public class JwtAuthorizationFilter extends BasicAuthenticationFilter {
                 authentication = JwtTokenUtils.getAuthentication(token.replace(SecurityConstants.TOKEN_PREFIX, ""));
                 SecurityContextHolder.getContext().setAuthentication(authentication);
                 chain.doFilter(request, response);
+                return;
             }
-        } else {
-            SecurityContextHolder.clearContext();
-            chain.doFilter(request, response);
-            return;
         }
 
+        SecurityContextHolder.clearContext();
+        chain.doFilter(request, response);
     }
 }
