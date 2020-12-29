@@ -32,6 +32,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
+    @ResponseBody
     public CommonResult signUp(@RequestBody @Valid UserRegisterRequest userRegisterRequest) {
         User user = userService.save(userRegisterRequest);
         if (user == null) {
@@ -52,7 +53,6 @@ public class UserController {
         return CommonResult.success("Request otp successfully");
     }
 
-    //TODO: request body parameters constraint
     @PostMapping("/verifyOtp")
     @ResponseBody
     public CommonResult verifyOtp(@RequestBody OtpVerifyRequest request) {
@@ -64,16 +64,19 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_MANAGER','ROLE_ADMIN')")
-    public ResponseEntity<Page<UserView>> getAllUser(@RequestParam(value = "pageNum", defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
+    public CommonResult getAllUser(@RequestParam(value = "pageNum", defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         Page<UserView> allUser = userService.getAll(pageNum, pageSize);
-        return ResponseEntity.ok().body(allUser);
+        return CommonResult.success(allUser);
     }
 
     @PutMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
-    public ResponseEntity<Void> update(@RequestBody @Valid UserUpdateRequest userUpdateRequest) {
-        userService.update(userUpdateRequest);
-        return ResponseEntity.ok().build();
+    public CommonResult update(@RequestBody @Valid UserUpdateRequest userUpdateRequest) {
+        int count = userService.update(userUpdateRequest);
+        if (count > 0) {
+            return CommonResult.success(count);
+        }
+        return CommonResult.failed();
     }
 
     @DeleteMapping

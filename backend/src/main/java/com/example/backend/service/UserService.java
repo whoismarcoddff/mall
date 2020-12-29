@@ -15,7 +15,7 @@ public interface UserService {
 
     public User findByEmail(String email);
 
-    public CommonResult update(UserUpdateRequest userUpdateRequest);
+    public int update(UserUpdateRequest userUpdateRequest);
 
     public void delete(String email);
 

@@ -51,7 +51,6 @@ public class UserServiceImpl implements UserService {
 
     public User save(UserRegisterRequest userRegisterRequest) {
 
-
         Optional usernamePresence = userRepository.findByUsername(userRegisterRequest.getUsername());
         Optional emailPresence = userRepository.findByEmail(userRegisterRequest.getEmail());
         Optional rolePresence = roleRepository.findByName(userRegisterRequest.getRole());
@@ -94,35 +93,9 @@ public class UserServiceImpl implements UserService {
         );
     }
 
-    public CommonResult update(UserUpdateRequest userUpdateRequest) {
-        Optional usernamePresence = userRepository.findByUsername(userUpdateRequest.getUsername());
-        Optional emailPresence = userRepository.findByEmail(userUpdateRequest.getEmail());
-        Optional rolePresence = roleRepository.findByName(userUpdateRequest.getRole());
-
-        User user = findByEmail(userUpdateRequest.getEmail());
-        String username = userUpdateRequest.getUsername();
-        String password = userUpdateRequest.getPassword();
-        String role = userUpdateRequest.getRole();
-
-        if (Objects.nonNull(username)) {
-            if (usernamePresence.isPresent()) {
-                return CommonResult.failed("Username already exist");
-            }
-
-            user.setUsername(username);
-        }
-        if (Objects.nonNull(password)) {
-            user.setPassword(passwordEncoder.encode(password));
-        }
-        if (Objects.nonNull(role)) {
-            if (!rolePresence.isPresent()) {
-                return CommonResult.failed("Role not found");
-            }
-
-        }
-        userRepository.save(user);
-
-        return CommonResult.success(userViewMapper.userToUserView(user));
+    public int update(UserUpdateRequest userUpdateRequest) {
+        //TODO: update function
+        return 1;
     }
 
     public void delete(String email) {
