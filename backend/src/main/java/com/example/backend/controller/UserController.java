@@ -64,6 +64,7 @@ public class UserController {
 
     @GetMapping
     @PreAuthorize("hasAnyRole('ROLE_USER','ROLE_MANAGER','ROLE_ADMIN')")
+    @ResponseBody
     public CommonResult getAllUser(@RequestParam(value = "pageNum", defaultValue = "0") int pageNum, @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
         Page<UserView> allUser = userService.getAll(pageNum, pageSize);
         return CommonResult.success(allUser);
@@ -71,6 +72,7 @@ public class UserController {
 
     @PutMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @ResponseBody
     public CommonResult update(@RequestBody @Valid UserUpdateRequest userUpdateRequest) {
         int count = userService.update(userUpdateRequest);
         if (count > 0) {
@@ -81,6 +83,7 @@ public class UserController {
 
     @DeleteMapping
     @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
+    @ResponseBody
     public ResponseEntity<Void> deleteUserByUserName(@RequestParam("username") String username) {
         userService.delete(username);
         return ResponseEntity.ok().build();

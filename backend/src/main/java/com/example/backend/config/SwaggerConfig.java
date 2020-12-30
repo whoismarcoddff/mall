@@ -49,7 +49,7 @@ public class SwaggerConfig {
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Mall Api Guide")
+                .title("Myshop Api Guide")
                 .build();
     }
 }

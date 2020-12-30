@@ -13,6 +13,7 @@ public class RedisServiceImpl implements RedisService {
     @Autowired
     private RedisTemplate<String, Object> redisTemplate;
 
+    // Value
     @Override
     public void set(String key, Object value, long time) {
         redisTemplate.opsForValue().set(key, value, time, TimeUnit.SECONDS);
@@ -63,6 +64,7 @@ public class RedisServiceImpl implements RedisService {
         return redisTemplate.opsForValue().increment(key, -delta);
     }
 
+    // Hash
     @Override
     public Object hGet(String key, String hashKey) {
         return redisTemplate.opsForHash().get(key, hashKey);
@@ -115,6 +117,7 @@ public class RedisServiceImpl implements RedisService {
         return redisTemplate.opsForHash().increment(key, hashKey, -delta);
     }
 
+    // Set
     @Override
     public Set<Object> sMembers(String key) {
         return redisTemplate.opsForSet().members(key);
@@ -147,6 +150,7 @@ public class RedisServiceImpl implements RedisService {
         return redisTemplate.opsForSet().remove(key, values);
     }
 
+    // List
     @Override
     public List<Object> lRange(String key, long start, long end) {
         return redisTemplate.opsForList().range(key, start, end);

@@ -41,10 +41,8 @@ public class AuthServiceImpl implements AuthService {
         }
         List<String> authorities = jwtUser.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
-        String token = JwtTokenUtils.createAccessToken(user.getUsername(), user.getId().toString(), authorities, loginRequest.getRememberMe());
+        String token = JwtTokenUtils.createAccessToken(user.getUsername(), String.valueOf(user.getId()), authorities, loginRequest.getRememberMe());
 
         return token;
     }
-
-
 }

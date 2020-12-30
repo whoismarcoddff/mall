@@ -19,6 +19,8 @@ public class AdminCacheServiceImpl implements AdminCacheService {
     private Long REDIS_EXPIRE_OTP;
     @Value("${redis.key.otp}")
     private String REDIS_KEY_OTP;
+    @Value("${redis.key.logout}")
+    private String REDIS_KEY_LOGOUT;
 
     @CacheException
     @Override
@@ -33,4 +35,17 @@ public class AdminCacheServiceImpl implements AdminCacheService {
         String key = REDIS_DATABASE + ":" + REDIS_KEY_OTP + ":" + email;
         return (String) redisService.get(key);
     }
+
+    @Override
+    public void setLogout(String id, String token, long expiration) {
+        String key = REDIS_DATABASE + ":" + REDIS_KEY_LOGOUT + ":" + id;
+        redisService.set(key, token, expiration);
+    }
+
+    @Override
+    public String getLogout(String id) {
+        String key = REDIS_DATABASE + ":" + REDIS_KEY_LOGOUT + ":" + id;
+       return (String) redisService.get(key);
+    }
+
 }
